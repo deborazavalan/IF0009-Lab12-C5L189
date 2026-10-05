@@ -1,0 +1,142 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 380px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1.4rem;
+  box-shadow: 0 6px 20px rgba(30, 64, 175, 0.06);
+}
+
+.fechas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.etiquetas {
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 0.8rem 1rem 1rem;
+  margin: 0 0 1.2rem;
+}
+
+.etiquetas legend {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: var(--primario-oscuro);
+  padding: 0 0.4rem;
+}
+
+.fila-etiqueta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.guardar {
+  width: 100%;
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta {
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1.1rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.tarjeta header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.tarjeta h3 {
+  font-size: 1.05rem;
+}
+
+.tarjeta p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.insignia {
+  background: var(--primario-suave);
+  color: var(--primario-oscuro);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0;
+}
+
+.chip {
+  background: #eef2ff;
+  color: #3730a3;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+}
+
+.asistentes {
+  margin: 0.4rem 0 0.8rem;
+}
+
+.asistentes h4 {
+  font-size: 0.88rem;
+  color: var(--texto-suave);
+}
+
+.asistentes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.asistentes li {
+  display: flex;
+  flex-direction: column;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #eef2f7;
+  font-size: 0.88rem;
+}
+
+.asistentes li small {
+  color: var(--texto-suave);
+}
+
+.asistentes li.vacio {
+  color: var(--texto-suave);
+  font-style: italic;
+  border-bottom: none;
+}

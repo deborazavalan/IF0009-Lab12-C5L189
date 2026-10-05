@@ -1,0 +1,153 @@
+<div class="layout">
+  <section class="panel formulario">
+    <h2>Registrar Nueva Charla</h2>
+
+    @if (mensajeExito) {
+      <div class="alert exito">{{ mensajeExito }}</div>
+    }
+    @if (mensajeError) {
+      <div class="alert fallo">{{ mensajeError }}</div>
+    }
+
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="titulo">Título de la charla *</label>
+        <input id="titulo" type="text" formControlName="titulo" placeholder="Ej. Arquitectura Hexagonal">
+        @if (tituloCtrl.invalid && (tituloCtrl.dirty || tituloCtrl.touched)) {
+          <div class="error">
+            @if (tituloCtrl.hasError('required')) { <span>El título es requerido.</span> }
+            @if (tituloCtrl.hasError('minlength')) { <span>El título debe tener al menos 5 caracteres.</span> }
+          </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="expositor">Expositor *</label>
+        <input id="expositor" type="text" formControlName="expositor" placeholder="Nombre completo">
+        @if (expositorCtrl.invalid && (expositorCtrl.dirty || expositorCtrl.touched)) {
+          <div class="error">El expositor es requerido.</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="nivel">Nivel *</label>
+        <select id="nivel" formControlName="nivel">
+          @for (nivel of niveles; track nivel) {
+            <option [value]="nivel">{{ nivel }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="emailContacto">Email de contacto *</label>
+        <input id="emailContacto" type="email" formControlName="emailContacto" placeholder="correo@ejemplo.com">
+        @if (emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)) {
+          <div class="error">
+            @if (emailCtrl.hasError('required')) { <span>El email es requerido.</span> }
+            @if (emailCtrl.hasError('email')) { <span>Formato de email inválido.</span> }
+          </div>
+        }
+      </div>
+
+      <div class="fechas">
+        <div class="form-group">
+          <label for="fechaInicio">Fecha de inicio *</label>
+          <input id="fechaInicio" type="date" formControlName="fechaInicio">
+          @if (fechaInicioCtrl.invalid && fechaInicioCtrl.touched) {
+            <div class="error">La fecha de inicio es requerida.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="fechaFin">Fecha de fin *</label>
+          <input id="fechaFin" type="date" formControlName="fechaFin">
+          @if (fechaFinCtrl.invalid && fechaFinCtrl.touched) {
+            <div class="error">La fecha de fin es requerida.</div>
+          }
+        </div>
+      </div>
+
+      @if (registroForm.hasError('fechasInvalidas') && (fechaInicioCtrl.dirty || fechaFinCtrl.dirty || registroForm.touched)) {
+        <div class="error-general" role="alert">La fecha de fin no puede ser anterior a la de inicio.</div>
+      }
+
+      <fieldset formArrayName="etiquetas" class="etiquetas">
+        <legend>Etiquetas tecnológicas (tags)</legend>
+
+        @for (control of etiquetasArray.controls; track $index) {
+          <div class="fila-etiqueta">
+            <input type="text" [formControlName]="$index" placeholder="Ej. Spring Boot">
+            @if (etiquetasArray.length > 1) {
+              <button type="button" class="btn btn-danger" (click)="removerEtiqueta($index)"
+                      [attr.aria-label]="'Eliminar etiqueta ' + ($index + 1)">X</button>
+            }
+            @if (control.invalid && control.touched) {
+              <span class="error">*</span>
+            }
+          </div>
+        }
+
+        <button type="button" class="btn btn-secondary" (click)="agregarEtiqueta()">+ Añadir otra etiqueta</button>
+      </fieldset>
+
+      <button type="submit" class="btn btn-primary guardar" [disabled]="registroForm.invalid || enviando">
+        {{ enviando ? 'Guardando...' : 'Guardar Charla' }}
+      </button>
+    </form>
+  </section>
+
+  <section class="panel agenda">
+    <h2>Agenda de TechConf</h2>
+
+    <div class="rejilla">
+      @for (charla of charlas; track charla.id) {
+        <article class="tarjeta">
+          <header>
+            <h3>{{ charla.titulo }}</h3>
+            <span class="insignia">{{ charla.nivel }}</span>
+          </header>
+
+          <p><strong>Expositor:</strong> {{ charla.expositor }}</p>
+          <p><strong>Contacto:</strong> {{ charla.emailContacto }}</p>
+          <p>
+            <strong>Fechas:</strong>
+            {{ charla.fechaInicio | date: 'mediumDate' }} – {{ charla.fechaFin | date: 'mediumDate' }}
+          </p>
+
+          <div class="chips">
+            @for (etiqueta of charla.etiquetas; track $index) {
+              <span class="chip">{{ etiqueta }}</span>
+            }
+          </div>
+
+          <div class="asistentes">
+            <h4>Asistentes inscritos ({{ (charla.asistentes ?? []).length }})</h4>
+            <ul>
+              @for (asistente of charla.asistentes ?? []; track asistente.id) {
+                <li>
+                  <span>{{ asistente.nombreCompleto }}</span>
+                  <small>{{ asistente.correo }} · {{ asistente.edad }} años</small>
+                </li>
+              } @empty {
+                <li class="vacio">Aún no hay asistentes inscritos.</li>
+              }
+            </ul>
+          </div>
+
+          <button type="button" class="btn btn-secondary" (click)="alternarInscripcion(charla.id!)">
+            {{ charlasConFormularioAbierto.has(charla.id!) ? 'Cerrar formulario' : 'Inscribir Asistente' }}
+          </button>
+
+          @if (charlasConFormularioAbierto.has(charla.id!)) {
+            <app-asistente-form
+              [charlaId]="charla.id!"
+              (inscrito)="onAsistenteInscrito(charla, $event)"
+              (cancelado)="alternarInscripcion(charla.id!)" />
+          }
+        </article>
+      } @empty {
+        <p>No hay charlas registradas aún en el sistema.</p>
+      }
+    </div>
+  </section>
+</div>
