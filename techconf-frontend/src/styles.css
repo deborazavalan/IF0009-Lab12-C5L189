@@ -1,0 +1,137 @@
+:root {
+  --primario: #2563eb;
+  --primario-oscuro: #1d4ed8;
+  --primario-suave: #dbeafe;
+  --fondo: #f3f6fb;
+  --tarjeta: #ffffff;
+  --borde: #dfe6f1;
+  --texto: #1e293b;
+  --texto-suave: #64748b;
+  --error: #b91c1c;
+  --error-fondo: #fee2e2;
+  --exito: #166534;
+  --exito-fondo: #dcfce7;
+  --radio: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+h2, h3, h4 {
+  margin: 0 0 0.6rem;
+}
+
+input, select {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fff;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primario);
+  box-shadow: 0 0 0 3px var(--primario-suave);
+}
+
+input.ng-invalid.ng-touched {
+  border-color: #ef4444;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 0.3rem;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: var(--error);
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+}
+
+.error-general {
+  background: var(--error-fondo);
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+}
+
+.alert {
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.alert.exito {
+  background: var(--exito-fondo);
+  color: var(--exito);
+  border: 1px solid #86efac;
+}
+
+.alert.fallo {
+  background: var(--error-fondo);
+  color: var(--error);
+  border: 1px solid #fca5a5;
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background: var(--primario);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primario-oscuro);
+}
+
+.btn-secondary {
+  background: var(--primario-suave);
+  color: var(--primario-oscuro);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #bfdbfe;
+}
+
+.btn-danger {
+  background: var(--error-fondo);
+  color: var(--error);
+  padding: 0.5rem 0.8rem;
+}
