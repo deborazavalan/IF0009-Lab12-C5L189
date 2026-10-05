@@ -1,0 +1,49 @@
+<form class="inscripcion" [formGroup]="asistenteForm" (ngSubmit)="onSubmit()" novalidate>
+  <h4>Inscribir asistente</h4>
+
+  @if (mensajeError) {
+    <div class="alert fallo">{{ mensajeError }}</div>
+  }
+
+  <div class="form-group">
+    <label [for]="'nombre-' + charlaId()">Nombre completo *</label>
+    <input [id]="'nombre-' + charlaId()" type="text" formControlName="nombre" placeholder="Ej. Ana Mora Rojas">
+    @if (nombreCtrl.invalid && (nombreCtrl.dirty || nombreCtrl.touched)) {
+      <div class="error">
+        @if (nombreCtrl.hasError('required')) { <span>El nombre es obligatorio.</span> }
+        @if (nombreCtrl.hasError('minlength')) { <span>El nombre debe tener al menos 3 caracteres.</span> }
+      </div>
+    }
+  </div>
+
+  <div class="form-group">
+    <label [for]="'correo-' + charlaId()">Correo electrónico *</label>
+    <input [id]="'correo-' + charlaId()" type="email" formControlName="correo" placeholder="correo@ejemplo.com">
+    @if (correoCtrl.invalid && (correoCtrl.dirty || correoCtrl.touched)) {
+      <div class="error">
+        @if (correoCtrl.hasError('required')) { <span>El correo es obligatorio.</span> }
+        @if (correoCtrl.hasError('email')) { <span>El formato del correo es inválido.</span> }
+      </div>
+    }
+  </div>
+
+  <div class="form-group">
+    <label [for]="'edad-' + charlaId()">Edad *</label>
+    <input [id]="'edad-' + charlaId()" type="number" formControlName="edad" placeholder="18 o más">
+    @if (edadCtrl.invalid && (edadCtrl.dirty || edadCtrl.touched)) {
+      <div class="error">
+        @if (edadCtrl.hasError('required')) { <span>La edad es obligatoria.</span> }
+        @if (edadCtrl.hasError('menorDeEdad')) { <span>El asistente debe tener 18 años o más.</span> }
+        @if (edadCtrl.hasError('max')) { <span>La edad no puede exceder 120 años.</span> }
+        @if (edadCtrl.hasError('edadInvalida')) { <span>La edad debe ser un número.</span> }
+      </div>
+    }
+  </div>
+
+  <div class="acciones">
+    <button type="submit" class="btn btn-primary" [disabled]="asistenteForm.invalid || enviando">
+      {{ enviando ? 'Inscribiendo...' : 'Confirmar inscripción' }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="cancelado.emit()">Cancelar</button>
+  </div>
+</form>

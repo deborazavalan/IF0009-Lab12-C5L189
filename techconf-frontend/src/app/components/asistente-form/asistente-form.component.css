@@ -1,0 +1,13 @@
+.inscripcion {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px dashed #93c5fd;
+  border-radius: 10px;
+}
+
+.acciones {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
