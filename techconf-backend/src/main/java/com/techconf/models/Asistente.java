@@ -39,7 +39,7 @@ public class Asistente {
     @Column(nullable = false)
     private Integer edad;
 
-   
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "charla_id", nullable = false)
     private Charla charla;
